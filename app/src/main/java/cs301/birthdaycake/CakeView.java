@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
-public class CakeView extends SurfaceView {
+public class CakeView extends SurfaceView implements View.OnTouchListener{
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -16,6 +18,11 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+
+    Paint textPaint = new Paint();
+
+    private float x;
+    private float y;
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -61,7 +68,12 @@ public class CakeView extends SurfaceView {
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
 
+        textPaint.setColor(Color.RED);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTextSize(100);
+
         setBackgroundColor(Color.WHITE);  //better than black default
+        x = -1;
 
         cakeModel = new CakeModel();
     }
@@ -131,9 +143,25 @@ public class CakeView extends SurfaceView {
         for (int i = 1; i <= cakeModel.numCandles; i++) {
             drawCandle(canvas, cakeLeft + cakeWidth / (cakeModel.numCandles + 1) * i - candleWidth / (cakeModel.numCandles + 1), cakeTop);
         }
+
+        if(x >= 0){
+            canvas.drawText("(x, y) = (" + x + ", " + y + ")", 1982, 700, textPaint);
+        }
+
         invalidate();
 
     }//onDraw
 
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        if(event.getActionMasked() == MotionEvent.ACTION_DOWN){
+            x = event.getX();
+            y = event.getY();
+            invalidate();
+            return true;
+        }
+
+        return false;
+    }
 }//class CakeView
 
