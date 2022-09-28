@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
         SeekBar numCandles = findViewById(R.id.numCandles);
         numCandles.setOnSeekBarChangeListener(cakeController);
+
+        SurfaceView surfaceView = findViewById(R.id.cakeview);
+        surfaceView.setOnTouchListener(cakeController);
+
 
         if(!cakeController.pressed) {
             blowOut.setText("RE-BLOW");
