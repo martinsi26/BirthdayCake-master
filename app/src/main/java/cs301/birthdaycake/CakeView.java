@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
-public class CakeView extends SurfaceView {
+public class CakeView extends SurfaceView implements View.OnTouchListener{
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -18,6 +20,16 @@ public class CakeView extends SurfaceView {
     Paint wickPaint = new Paint();
     Paint redPaint = new Paint();
     Paint greenPaint = new Paint();
+    private float left = 0;
+    private float right = 0;
+    private float bTop = 0;
+    private float bBottom = 0;
+    Paint balloon  = new Paint();
+
+    Paint textPaint = new Paint();
+
+    private float x;
+    private float y;
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -66,8 +78,14 @@ public class CakeView extends SurfaceView {
         redPaint.setStyle(Paint.Style.FILL);
         greenPaint.setColor(Color.GREEN);
         greenPaint.setStyle(Paint.Style.FILL);
+        balloon.setColor(Color.BLUE);
+
+        textPaint.setColor(Color.RED);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTextSize(100);
 
         setBackgroundColor(Color.WHITE);  //better than black default
+        x = -1;
 
         cakeModel = new CakeModel();
     }
@@ -143,7 +161,39 @@ public class CakeView extends SurfaceView {
         canvas.drawRect(cakeModel.x-50, cakeModel.y + 50, cakeModel.x, cakeModel.y, redPaint);
         canvas.drawRect(cakeModel.x, cakeModel.y + 50, cakeModel.x +50, cakeModel.y, greenPaint);
 
+
+
+
+        //Draw a balloon
+        canvas.drawOval(left,bTop,right,bBottom,balloon);
+        canvas.drawLine(left+20, bBottom, right-20, bBottom + 50,balloon);
+
+        if(x >= 0){
+            canvas.drawText("(x, y) = (" + x + ", " + y + ")", 1982, 700, textPaint);
+        }
     }//onDraw
 
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if(motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            x = motionEvent.getX();
+            y = motionEvent.getY();
+            if(x - 20 >= 0) {
+                left = x - 20;
+            }
+            if(x + 20 < 1980) {
+                right = x + 20;
+            }
+            if(y - 40 >= 0) {
+                bTop = y - 25;
+            }
+            if(y + 25 < 1070) {
+                bBottom = y + 25;
+            }
+            invalidate();
+            return true;
+        }
+        return false;
+    }
 }//class CakeView
 
