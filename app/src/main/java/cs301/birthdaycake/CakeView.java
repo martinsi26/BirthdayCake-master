@@ -5,9 +5,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+import android.view.View;
 
-public class CakeView extends SurfaceView {
+public class CakeView extends SurfaceView implements View.OnTouchListener {
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -16,6 +18,11 @@ public class CakeView extends SurfaceView {
     Paint outerFlamePaint = new Paint();
     Paint innerFlamePaint = new Paint();
     Paint wickPaint = new Paint();
+    private float left = 0;
+    private float right = 0;
+    private float bTop = 0;
+    private float bBottom = 0;
+    Paint balloon  = new Paint();
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -60,6 +67,7 @@ public class CakeView extends SurfaceView {
         innerFlamePaint.setStyle(Paint.Style.FILL);
         wickPaint.setColor(Color.BLACK);
         wickPaint.setStyle(Paint.Style.FILL);
+        balloon.setColor(Color.BLUE);
 
         setBackgroundColor(Color.WHITE);  //better than black default
 
@@ -127,13 +135,38 @@ public class CakeView extends SurfaceView {
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
         //Now a candle in the center
-
         for (int i = 1; i <= cakeModel.numCandles; i++) {
             drawCandle(canvas, cakeLeft + cakeWidth / (cakeModel.numCandles + 1) * i - candleWidth / (cakeModel.numCandles + 1), cakeTop);
         }
-        invalidate();
 
+        //Draw a balloon
+        canvas.drawOval(left,bTop,right,bBottom,balloon);
+        canvas.drawLine(left+20, bBottom, right-20, bBottom + 50,balloon);
     }//onDraw
 
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        float x;
+        float y;
+        if(motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+            x = motionEvent.getX();
+            y = motionEvent.getY();
+            if(x - 20 >= 0) {
+                left = x - 20;
+            }
+            if(x + 20 < 1980) {
+                right = x + 20;
+            }
+            if(y - 40 >= 0) {
+                bTop = y - 25;
+            }
+            if(y + 25 < 1070) {
+                bBottom = y + 25;
+            }
+            invalidate();
+            return true;
+        }
+        return false;
+    }
 }//class CakeView
 
