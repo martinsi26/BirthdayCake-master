@@ -28,6 +28,7 @@ public class CakeController implements View.OnClickListener,
             cakeModel.lit = true;
             pressed = true;
         }
+        cakeView.invalidate();
     }
 
     @Override
@@ -37,11 +38,13 @@ public class CakeController implements View.OnClickListener,
         } else {
             cakeModel.hasCandles = false;
         }
+        cakeView.invalidate();
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         cakeModel.numCandles = progress;
+        cakeView.invalidate();
     }
 
     @Override
