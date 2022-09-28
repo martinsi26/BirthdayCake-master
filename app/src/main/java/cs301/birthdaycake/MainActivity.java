@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         CakeView cakeView = findViewById(R.id.cakeview);
         cakeView.setOnTouchListener(cakeView);
         CakeController cakeController = new CakeController(cakeView);
+        cakeView.setOnTouchListener(cakeView);
 
         Button blowOut = findViewById(R.id.blowOut);
         blowOut.setOnClickListener(cakeController);
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
         SeekBar numCandles = findViewById(R.id.numCandles);
         numCandles.setOnSeekBarChangeListener(cakeController);
+
+
 
         if(!cakeController.pressed) {
             blowOut.setText("RE-BLOW");

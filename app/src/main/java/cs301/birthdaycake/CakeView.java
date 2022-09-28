@@ -9,7 +9,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 
-public class CakeView extends SurfaceView implements View.OnTouchListener {
+public class CakeView extends SurfaceView implements View.OnTouchListener{
 
     /* These are the paints we'll use to draw the birthday cake below */
     Paint cakePaint = new Paint();
@@ -23,6 +23,11 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
     private float bTop = 0;
     private float bBottom = 0;
     Paint balloon  = new Paint();
+
+    Paint textPaint = new Paint();
+
+    private float x;
+    private float y;
 
     /* These constants define the dimensions of the cake.  While defining constants for things
         like this is good practice, we could be calculating these better by detecting
@@ -69,7 +74,12 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
         wickPaint.setStyle(Paint.Style.FILL);
         balloon.setColor(Color.BLUE);
 
+        textPaint.setColor(Color.RED);
+        textPaint.setTextAlign(Paint.Align.RIGHT);
+        textPaint.setTextSize(100);
+
         setBackgroundColor(Color.WHITE);  //better than black default
+        x = -1;
 
         cakeModel = new CakeModel();
     }
@@ -135,6 +145,7 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
         canvas.drawRect(cakeLeft, top, cakeLeft + cakeWidth, bottom, cakePaint);
 
         //Now a candle in the center
+
         for (int i = 1; i <= cakeModel.numCandles; i++) {
             drawCandle(canvas, cakeLeft + cakeWidth / (cakeModel.numCandles + 1) * i - candleWidth / (cakeModel.numCandles + 1), cakeTop);
         }
@@ -142,12 +153,14 @@ public class CakeView extends SurfaceView implements View.OnTouchListener {
         //Draw a balloon
         canvas.drawOval(left,bTop,right,bBottom,balloon);
         canvas.drawLine(left+20, bBottom, right-20, bBottom + 50,balloon);
+
+        if(x >= 0){
+            canvas.drawText("(x, y) = (" + x + ", " + y + ")", 1982, 700, textPaint);
+        }
     }//onDraw
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        float x;
-        float y;
         if(motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
             x = motionEvent.getX();
             y = motionEvent.getY();
