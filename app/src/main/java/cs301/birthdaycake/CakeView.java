@@ -178,18 +178,10 @@ public class CakeView extends SurfaceView implements View.OnTouchListener{
         if(motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
             x = motionEvent.getX();
             y = motionEvent.getY();
-            if(x - 20 >= 0) {
-                left = x - 20;
-            }
-            if(x + 20 < 1980) {
-                right = x + 20;
-            }
-            if(y - 40 >= 0) {
-                bTop = y - 25;
-            }
-            if(y + 25 < 1070) {
-                bBottom = y + 25;
-            }
+            left = x - 20;
+            right = x + 20;
+            bTop = y - 25;
+            bBottom = y + 25;
             invalidate();
             return true;
         }
