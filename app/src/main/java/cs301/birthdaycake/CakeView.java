@@ -156,10 +156,10 @@ public class CakeView extends SurfaceView implements View.OnTouchListener{
             drawCandle(canvas, cakeLeft + cakeWidth / (cakeModel.numCandles + 1) * i - candleWidth / (cakeModel.numCandles + 1), cakeTop);
         }
 
-        canvas.drawRect(cakeModel.x-50, cakeModel.y - 50, cakeModel.x, cakeModel.y, greenPaint);
-        canvas.drawRect(cakeModel.x, cakeModel.y - 50, cakeModel.x + 50, cakeModel.y, redPaint);
-        canvas.drawRect(cakeModel.x-50, cakeModel.y + 50, cakeModel.x, cakeModel.y, redPaint);
-        canvas.drawRect(cakeModel.x, cakeModel.y + 50, cakeModel.x +50, cakeModel.y, greenPaint);
+        canvas.drawRect(x-50, y - 50, x, y, greenPaint);
+        canvas.drawRect(x, y - 50, x + 50, y, redPaint);
+        canvas.drawRect(x-50, y + 50, x, y, redPaint);
+        canvas.drawRect(x, y + 50, x +50, y, greenPaint);
 
 
 
